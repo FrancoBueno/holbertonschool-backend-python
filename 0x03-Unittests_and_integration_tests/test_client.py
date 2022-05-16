@@ -33,9 +33,22 @@ class TestGithubOrgClient(unittest.TestCase):
             response = GithubOrgClient(name)._public_repos_url
             self.assertEqual(response, result.get('repos_url'))
 
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """an integration test for githuborg client"""
 
+    @classmethod
+    def setUpClass(cls):
+        """ set up class befor each method"""
+        config = {'return_value.json.side_effect':
+                  [
+                    cls.org_payload, cls.repos_payload,
+                    cls.org_payload, cls.repos_payload
+                  ]
+                  }
+        cls.get_patcher = patch('requests.get', **config)
+        cls.mock = cls.get_patcher.start()
 
-        def test_public_repos(self):
+    def test_public_repos(self):
         """add some more integration"""
         tst_cls = GithubOrgClient('Facebook')
         self.assertEqual(tst_cls.org, self.org_payload)
@@ -48,3 +61,7 @@ class TestGithubOrgClient(unittest.TestCase):
         test_class = GithubOrgClient("holberton")
         assert True
 
+    @classmethod
+    def tearDownClass(cls) -> None:
+        """tear down after each class"""
+        cls.get_patcher.stop()
