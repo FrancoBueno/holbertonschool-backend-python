@@ -33,6 +33,7 @@ class TestGithubOrgClient(unittest.TestCase):
             response = GithubOrgClient(name)._public_repos_url
             self.assertEqual(response, result.get('repos_url'))
 
+
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """an integration test for githuborg client"""
 
