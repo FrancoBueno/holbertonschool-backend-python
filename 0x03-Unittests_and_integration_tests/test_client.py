@@ -32,3 +32,19 @@ class TestGithubOrgClient(unittest.TestCase):
                    PropertyMock(return_value=result)):
             response = GithubOrgClient(name)._public_repos_url
             self.assertEqual(response, result.get('repos_url'))
+
+
+
+        def test_public_repos(self):
+        """add some more integration"""
+        tst_cls = GithubOrgClient('Facebook')
+        self.assertEqual(tst_cls.org, self.org_payload)
+        self.assertEqual(tst_cls.repos_payload, self.repos_payload)
+        self.assertEqual(tst_cls.public_repos(), self.expected_repos)
+        self.mock.assert_called()
+
+    def test_public_repos_with_license(self):
+        """ method to test the public_repos with the argument license """
+        test_class = GithubOrgClient("holberton")
+        assert True
+
